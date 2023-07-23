@@ -55,6 +55,7 @@ public class Employee {
 
     private LocalDate dateDepart;
 
+    private String categorieSocioProffessionel;
 
-
+    private String cnaps;
 }
