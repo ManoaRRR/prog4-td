@@ -36,4 +36,25 @@ public class Employee {
     private String photo;
 
     private String sexe;
+
+    private String telephone;
+
+    private String adresseExacte;
+
+    private String emailPerso;
+
+    private String emailPro;
+
+    private String CIN;
+
+    private String fonction;
+
+    private String nombreEnfant;
+
+    private LocalDate dateEmbauche;
+
+    private LocalDate dateDepart;
+
+
+
 }
