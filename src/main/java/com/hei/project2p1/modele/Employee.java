@@ -34,4 +34,6 @@ public class Employee {
     @Lob
     @Column //(columnDefinition = "varchar(max)")?
     private String photo;
+
+    private String sexe;
 }
