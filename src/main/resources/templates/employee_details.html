@@ -1,22 +1,90 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Employee details</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h2>Employee details</h2>-->
+<!--    <th:block th:if="${employee.photo.length()>0}">-->
+<!--        <img th:src="'data:image/png;base64,' + ${employee.photo}" alt="Photo">-->
+<!--    </th:block>-->
+<!--    <th:block th:unless="${employee.photo.length()>0}">-->
+<!--        <h4>Aucun Image</h4>-->
+<!--    </th:block>-->
+<!--    <p>First Name: <span th:text="${employee.firstName}"></span></p>-->
+<!--    <p>Last Name: <span th:text="${employee.lastName}"></span></p>-->
+<!--    <p>Birth Date: <span th:text="${employee.birthDate}"></span></p>-->
+<!--    <p>Registration Number: <span th:text="${employee.registrationNo}"></span></p>-->
+
+<!--<div></div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Employee details</title>
+    <title>Ajouter un employé</title>
 </head>
 <body>
-    <h2>Employee details</h2>
-    <th:block th:if="${employee.photo.length()>0}">
-        <img th:src="'data:image/png;base64,' + ${employee.photo}" alt="Photo">
-    </th:block>
-    <th:block th:unless="${employee.photo.length()>0}">
-        <h4>Aucun Image</h4>
-    </th:block>
-    <p>First Name: <span th:text="${employee.firstName}"></span></p>
-    <p>Last Name: <span th:text="${employee.lastName}"></span></p>
-    <p>Birth Date: <span th:text="${employee.birthDate}"></span></p>
-    <p>Registration Number: <span th:text="${employee.registrationNo}"></span></p>
+<h1>Ajouter un employé</h1>
 
-<div></div>
+<form th:action="@{/saveEmployee}" th:object="${employee}" method="post">
+    <label>Registration No:</label>
+    <input type="text" th:field="*{registrationNo}" required/><br/>
+
+    <label>First Name:</label>
+    <input type="text" th:field="*{firstName}" required/><br/>
+
+    <label>Last Name:</label>
+    <input type="text" th:field="*{lastName}" required/><br/>
+
+    <label>Birth Date:</label>
+    <input type="date" th:field="*{birthDate}" required/><br/>
+
+    <label>Photo:</label>
+    <input type="file" th:field="*{photo}"/><br/>
+
+    <label>Sexe:</label>
+    <select th:field="*{sexe}">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+    </select><br/>
+
+    <label>Telephone(s):</label>
+    <input type="text" th:each="telephone : ${employee.telephone}" th:value="${telephone}" name="telephone"/><br/>
+
+    <label>Adresse Exacte:</label>
+    <input type="text" th:field="*{adresseExacte}" required/><br/>
+
+    <label>Email Personnel:</label>
+    <input type="email" th:field="*{emailPerso}" required/><br/>
+
+    <label>Email Professionnel:</label>
+    <input type="email" th:field="*{emailPro}" required/><br/>
+
+    <label>CIN:</label>
+    <input type="text" th:field="*{CIN}" required/><br/>
+
+    <label>Fonction:</label>
+    <input type="text" th:field="*{fonction}" required/><br/>
+
+    <label>Nombre d'enfants:</label>
+    <input type="number" th:field="*{nombreEnfant}" required/><br/>
+
+    <label>Date d'embauche:</label>
+    <input type="date" th:field="*{dateEmbauche}" required/><br/>
+
+    <label>Date de départ:</label>
+    <input type="date" th:field="*{dateDepart}" required/><br/>
+
+    <label>Catégorie socio-professionnelle:</label>
+    <input type="text" th:field="*{categorieSocioProffessionel}" required/><br/>
+
+    <label>CNAPS:</label>
+    <input type="text" th:field="*{cnaps}" required/><br/>
+
+    <button type="submit">Enregistrer</button>
+</form>
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -22,6 +23,18 @@ public class EmployeeMapper {
                 .registrationNo(createEmployeeUI.getRegistrationNo())
                 .birthDate(LocalDate.parse(createEmployeeUI.getBirthDate()))
                 .photo(multipartImageToString(createEmployeeUI.getPhoto()))
+                .sexe(createEmployeeUI.getSexe())
+                .telephone(Collections.singletonList(createEmployeeUI.getTelephone()))
+                .adresseExacte(createEmployeeUI.getAdresseExacte())
+                .emailPerso(createEmployeeUI.getEmailPerso())
+                .emailPro(createEmployeeUI.getEmailPro())
+                .CIN(createEmployeeUI.getCIN())
+                .fonction(createEmployeeUI.getFonction())
+                .nombreEnfant(Integer.valueOf(createEmployeeUI.getNombreEnfant()))
+                .dateEmbauche(createEmployeeUI.getDateEmbauche())
+                .dateDepart(createEmployeeUI.getDateDepart())
+                .categorieSocioProffessionel(createEmployeeUI.getCategorieSocioProffessionel())
+                .cnaps(createEmployeeUI.getCnaps())
                 .build();
     }
 
@@ -33,6 +46,18 @@ public class EmployeeMapper {
                 .registrationNo(createEmployeeUI.getRegistrationNo())
                 .birthDate(LocalDate.parse(createEmployeeUI.getBirthDate()))
                 .photo(createEmployeeUI.getPhoto())
+                .sexe(createEmployeeUI.getSexe())
+                .telephone(Collections.singletonList(createEmployeeUI.getTelephone()))
+                .adresseExacte(createEmployeeUI.getAdresseExacte())
+                .emailPerso(createEmployeeUI.getEmailPerso())
+                .emailPro(createEmployeeUI.getEmailPro())
+                .CIN(createEmployeeUI.getCIN())
+                .fonction(createEmployeeUI.getFonction())
+                .nombreEnfant(Integer.valueOf(createEmployeeUI.getNombreEnfant()))
+                .dateEmbauche(createEmployeeUI.getDateEmbauche())
+                .dateDepart(createEmployeeUI.getDateDepart())
+                .categorieSocioProffessionel(createEmployeeUI.getCategorieSocioProffessionel())
+                .cnaps(createEmployeeUI.getCnaps())
                 .build();
     }
 

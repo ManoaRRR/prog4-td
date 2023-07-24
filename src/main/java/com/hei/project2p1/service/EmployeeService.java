@@ -33,7 +33,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
     public Employee getEmployeeById(String id){
-        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee with id"+ id + "not found."));
+        return employeeRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new RuntimeException("Employee with id"+ id + "not found."));
     }
 
     @Transactional
