@@ -1,4 +1,4 @@
-package com.hei.project2p1.modele;
+package com.hei.project2p1.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

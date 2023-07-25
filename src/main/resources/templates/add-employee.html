@@ -2,33 +2,138 @@
 <html>
 <head>
     <meta charset = "ISO-8859-1" />
-    <link href = "css/form.css" rel = "stylesheet"/>
+    <link href = "css/styles.css" rel = "stylesheet"/>
     <title>Employee Management</title>
 </head>
 <body>
-<h2>Add Employee</h2>
-<form th:action="@{/addEmployee}" th:object="${newEmployee}" method="post" enctype="multipart/form-data">
-    <label for="photo">Photo:</label>
-    <input type="file" id="photo" accept="image/*" th:field="*{photo}"><br>
+<div th:replace="fragments/header :: header"></div>
+<h1>Create New Employee</h1>
+<form th:action="@{/addEmployee}" method="post" enctype="multipart/form-data" class="employeeForm">
+    <label class="labelForm">First Name:</label>
+    <input type="text" name="firstName" required /><br/>
 
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" th:field="*{firstName}" required><br>
+    <label class="labelForm">Last Name:</label>
+    <input type="text" name="lastName" required /><br/>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" th:field="*{lastName}" required><br>
+    <label class="labelForm">Birth Date:</label>
+    <input type="date" name="birthDate" /><br/>
 
-    <label for="birthDate">Birth Date:</label>
-    <input type="date" id="birthDate" th:field="*{birthDate}" required><br>
-    <th:block th:if="${newEmployee.id != null}">
-        <button type="submit">Modify</button>
-    </th:block>
-    <th:block th:unless="${newEmployee.id != null}">
-        <button type="submit">Add</button>
-    </th:block>
+    <label class="labelForm">Photo:</label>
+    <input type="file" name="photo" /><br/>
+
+    <label class="labelForm">Gender:</label>
+    <select name="gender">
+        <option th:each="gender: ${genders}"
+                th:value="${gender}" th:text="${gender}"></option>
+    </select><br/>
+
+
+    <label class="labelForm">Number of Children:</label>
+    <input type="number" name="numberOfChildren" value="0" min="0"/><br/>
+
+    <label class="labelForm">Phones:</label>
+    <div id="phones">
+    </div>
+    <button type="button" onclick="addPhone()">Add Phone</button><br/>
+
+    <label class="labelForm">Address:</label>
+    <input type="text" name="address" /><br/>
+
+    <label class="labelForm">Personal Email:</label>
+    <input type="email" name="personalEmail" /><br/>
+
+    <label class="labelForm">Professional Email:</label>
+    <input type="email" name="professionalEmail" /><br/>
+
+    <label class="labelForm">CIN Number:</label>
+    <input type="text" name="cinNumber" /><br/>
+
+    <label class="labelForm">CIN Issue Date:</label>
+    <input type="date" name="cinIssueDate" /><br/>
+
+    <label class="labelForm">CIN Issue Place:</label>
+    <input type="text" name="cinIssuePlace" /><br/>
+
+    <label class="labelForm">Function:</label>
+    <input type="text" name="function" /><br/>
+
+    <label class="labelForm">Hiring Date:</label>
+    <input type="date" name="hiringDate" /><br/>
+
+    <label class="labelForm">Departure Date:</label>
+    <input type="date" name="departureDate" /><br/>
+
+    <label class="labelForm">Socio-Professional Category:</label>
+    <select name="socioProfessionalCategory">
+        <option th:each="category : ${categories}"
+                th:value="${category}" th:text="${category}"></option>
+    </select><br/>
+
+    <label class="labelForm">CNAPS Number:</label>
+    <input type="text" name="cnapsNumber" /><br/>
+
+    <input type="submit" value="Create" class="submitButton"/>
 </form>
 
+<script>
+    function addPhoneInput(phoneValue) {
+        const phoneInput = document.createElement("input");
+        phoneInput.type = "text";
+        phoneInput.name = "phones";
+        phoneInput.value = phoneValue;
+        const phoneDiv = document.createElement("div");
+        phoneDiv.appendChild(phoneInput);
 
-    </tbody>
-</table>
+        // Check if there is more than one phone input to decide whether to add the delete button
+        if (document.getElementsByName("phones").length > 0) {
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.innerHTML = "Delete";
+            deleteButton.onclick = function() {
+                deletePhone(phoneInput);
+            };
+            phoneDiv.appendChild(deleteButton);
+        }
+
+        phoneDiv.appendChild(document.createElement("br"));
+        const phonesDiv = document.getElementById("phones");
+        phonesDiv.appendChild(phoneDiv);
+    }
+
+    function addPhone() {
+        addPhoneInput("");
+    }
+
+    function deletePhone(phoneInput) {
+        const phonesDiv = document.getElementById("phones");
+        phonesDiv.removeChild(phoneInput.parentElement);
+    }
+
+    // On page load, set phones to be an empty list if no phone numbers are provided
+    window.onload = function() {
+        const phonesInput = document.getElementsByName("phones");
+        if (phonesInput.length === 0) {
+            addPhone();
+        } else {
+            for (let i = 0; i < phonesInput.length; i++) {
+                addPhoneInput(phonesInput[i].value);
+            }
+        }
+    };
+
+    // Before form submission, update the actual input fields with the phone values
+    document.getElementById("employeeForm").addEventListener("submit", function() {
+        const phonesInput = document.getElementsByName("phones");
+        const phoneValues = [];
+        for (let i = 0; i < phonesInput.length; i++) {
+            phoneValues.push(phonesInput[i].value);
+        }
+        document.getElementById("phones").innerHTML = "";
+        for (let i = 0; i < phoneValues.length; i++) {
+            addPhoneInput(phoneValues[i]);
+        }
+    });
+</script>
+
 </body>
 </html>

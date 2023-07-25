@@ -1,6 +1,6 @@
 package com.hei.project2p1.repository;
 
-import com.hei.project2p1.modele.RegistrationNoTracker;
+import com.hei.project2p1.model.RegistrationNoTracker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

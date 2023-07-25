@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "ISO-8859-1" />
+    <link href = "css/styles.css" rel = "stylesheet"/>
+    <title>Employee Management</title>
+</head>
+<body>
+
+<h2>Employees</h2>
+<a th:href="@{/employees/add}">Add new Employee</a>
+<table>
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Birth Date</th>
+        <th>Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}" >
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.birthDate}"></td>
+        <td th:text="${employee.registrationNo}"></td>
+
+        <td>
+        <a th:href="@{/employees/{id}/details(id=${employee.id})}">Details</a>
+        </td>
+        <td>
+            <a th:href="@{/employees/{id}/update(id=${employee.id})}">Update</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

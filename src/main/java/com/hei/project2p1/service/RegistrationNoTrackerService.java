@@ -1,6 +1,6 @@
 package com.hei.project2p1.service;
 
-import com.hei.project2p1.modele.RegistrationNoTracker;
+import com.hei.project2p1.model.RegistrationNoTracker;
 import com.hei.project2p1.repository.RegistrationNoTrackerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
