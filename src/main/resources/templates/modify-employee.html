@@ -6,13 +6,14 @@
     <title>Employee Management</title>
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 <h2>Update Employee</h2>
 
 <form th:action="@{/modifyEmployee}" method="post" enctype="multipart/form-data">
-    <th:block th:if="${photoString.length()>0}">
+    <th:block th:if="${photoString!=null && photoString.length()>0}">
         <img th:src="'data:image/png;base64,' + ${photoString}" alt="Photo"> <br>
     </th:block>
-    <th:block th:unless="${photoString.length()>0}"> <br>
+    <th:block th:unless="${photoString!=null && photoString.length()>0}"> <br>
         <h4>Aucun Image</h4>
     </th:block>
     <input type="hidden" name="employeeId" th:value="*{employeeId}">
@@ -25,6 +26,12 @@
     <input type="text" th:value="${lastName}" id="lastName" name="lastName"/> <br>
     <label for="birthDate">Birth date:</label>
     <input type="date" th:value="${birthDate}" id="birthDate" name="birthDate"/> <br>
+    <label>Gender:</label>
+    <select name="gender">
+        <option th:each="g: ${genders}"
+                th:selected="${g==gender}"
+                th:value="${g}" th:text="${g}"></option>
+    </select><br/>
 
     <label for="photo">Photo:</label>
     <input type="file" id="photo" accept="image/*" name="photo"><br>

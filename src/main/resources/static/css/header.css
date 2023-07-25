@@ -1,0 +1,47 @@
+/* styles.css */
+
+/* Set primary color */
+:root {
+    --primary-color: #383770;
+}
+
+/* Styles for the header component */
+.headerComponent {
+    background-color: var(--primary-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* Styles for the navigation bar */
+.navBar {
+    padding: 10px 20px;
+}
+
+.navBar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navBar li {
+    display: inline;
+    margin-right: 15px;
+}
+
+/* Styles for the header buttons */
+.headerButton {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.headerButton:hover {
+    background-color: #6e547c;
+}
+
+.headerButton:active {
+    background-color: #ae7586;
+}

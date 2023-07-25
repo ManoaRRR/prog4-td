@@ -1,39 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset = "ISO-8859-1" />
+    <meta charset = "UTF-8" />
     <link href = "css/styles.css" rel = "stylesheet"/>
     <title>Employee Management</title>
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
+<h1>Employee List</h1>
+<form action="#" th:action="@{/employees}" method="get">
+    <label>Search by Last Name:</label>
+    <input type="text" name="last_name" id="last_name"/> <br>
+    <label>Search by First Name:</label>
+    <input type="text" name="first_name" id="first_name"><br>
+    <label>Filter by Gender:</label>
+    <select >
+        <option value="">All</option>
+        <option th:each="genderOption : ${genderList}"
+                th:value="${genderOption}"
+                th:text="${genderOption == 'H' ? 'Male' : (genderOption == 'F' ? 'Female' : 'Unknown')}"></option>
+    </select> <br>
 
-<h2>Employees</h2>
-<a th:href="@{/employees/add}">Add new Employee</a>
-<table>
-    <thead>
+    <label>Search by Function:</label>
+    <input type="text" /> <br>
+    <button type="submit">Search</button>
+</form>
+
+<table class="employee-table">
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Photo</th>
+        <th><a th:href="@{/employees(sort_by='firstName',sort_order=${sortField eq 'firstName' and sortOrder eq 'ASC' ? 'DESC' : 'ASC'})}"
+               th:text="${sortField eq 'firstName' ? (sortOrder eq 'ASC' ? 'First Name ▲' : 'First Name ▼') : 'First Name'}"></a></th>
+        <th><a th:href="@{/employees(sort_by='lastName',sort_order=${sortField eq 'lastName' and sortOrder eq 'ASC' ? 'DESC' : 'ASC'})}"
+               th:text="${sortField eq 'lastName' ? (sortOrder eq 'ASC' ? 'Last Name ▲' : 'Last Name ▼') : 'Last Name'}"></a></th>
+        <th>Registration Number</th>
         <th>Birth Date</th>
-        <th>Number</th>
+        <th><a th:href="@{/employees(sort_by='gender',sort_order=${sortField eq 'gender' and sortOrder eq 'ASC' ? 'DESC' : 'ASC'})}"
+               th:text="${sortField eq 'gender' ? (sortOrder eq 'ASC' ? 'Gender ▲' : 'Gender ▼') : 'Gender'}"></a></th>
+        <th>Phones</th>
+        <th>Address</th>
+        <th>Personal Email</th>
+        <th>Professional Email</th>
+        <th>CIN Number</th>
+        <th>CIN Issue Date</th>
+        <th>CIN Issue Place</th>
+        <th><a th:href="@{/employees(sort_by='function',sort_order=${sortField eq 'function' and sortOrder eq 'ASC' ? 'DESC' : 'ASC'})}"
+               th:text="${sortField eq 'function' ? (sortOrder eq 'ASC' ? 'Function ▲' : 'Function ▼') : 'Function'}"></a></th>
+        <th>Number of Children</th>
+        <th>Hiring Date</th>
+        <th>Departure Date</th>
+        <th>Socio-Professional Category</th>
+        <th>CNAPS Number</th>
+        <th>Details</th>
+        <th>Update</th>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="employee : ${employees}" >
-        <td th:text="${employee.firstName}"></td>
-        <td th:text="${employee.lastName}"></td>
-        <td th:text="${employee.birthDate}"></td>
+    <tr th:each="employee : ${employees}">
+        <td>
+            <th:block th:if="${ employee.photo!=null && employee.photo.length()>0}">
+                <img th:src="'data:image/png;base64,' + ${employee.photo}" width="100" height="100" alt="Photo">
+            </th:block>
+        </td>
+        <td th:text="${employee.getFirstName() }"></td>
+        <td th:text="${employee.lastName }"></td>
         <td th:text="${employee.registrationNo}"></td>
+        <td th:text="${employee.birthDate}"></td>
+
+        <td th:text="${employee.gender}"></td>
+        <td>
+            <ul>
+                <li th:each="phone : ${employee.phones}" th:text="${phone}"></li>
+            </ul>
+        </td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.personalEmail}"></td>
+        <td th:text="${employee.professionalEmail}"></td>
+        <td th:text="${employee.cinNumber}"></td>
+        <td th:text="${employee.cinIssueDate}"></td>
+        <td th:text="${employee.cinIssuePlace}"></td>
+        <td th:text="${employee.function}"></td>
+        <td th:text="${employee.numberOfChildren}"></td>
+        <td th:text="${employee.hiringDate}"></td>
+        <td th:text="${employee.departureDate}"></td>
+        <td th:text="${employee.socioProfessionalCategory}"></td>
+        <td th:text="${employee.cnapsNumber}"></td>
 
         <td>
-        <a th:href="@{/employees/{id}/details(id=${employee.id})}">Details</a>
+            <a th:href="@{/employees/{id}/details(id=${employee.id})}">Details</a>
         </td>
         <td>
             <a th:href="@{/employees/{id}/update(id=${employee.id})}">Update</a>
         </td>
-
     </tr>
-    </tbody>
 </table>
+<div class="pagination">
+    <!-- First Page -->
+    <span>
+        <a th:href="@{/employees(page=1, page_size=${page_size})}" th:if="${page > 1}">First</a>
+    </span>
+    <!-- Previous Page -->
+    <span>
+        <a th:href="@{/employees(page=${page - 1}, page_size=${page_size})}"
+           th:if="${page > 1}">Previous</a>
+    </span>
+
+    <!-- Current Page -->
+    <span class="current-page">
+        <span th:text="${page}"></span>
+    </span>
+
+    <!-- Next Page -->
+    <span>
+        <a th:href="@{/employees(page=${page + 1}, page_size=${page_size})}"
+           th:if="${page + 1 < totalPages}">Next</a>
+    </span>
+    <!-- Last Page -->
+    <span>
+        <a th:href="@{/employees(page=${totalPages - 1}, page_size=${page_size})}"
+           th:if="${page + 1 < totalPages}">Last</a>
+    </span>
+
+    <!-- Total Pages -->
+    <span>Total Pages: <span th:text="${totalPages}"></span></span>
+
+    <!-- Page Size Select Dropdown -->
+    <label>Page Size:</label>
+    <select th:field="*{page_size}">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
 </body>
 </html>

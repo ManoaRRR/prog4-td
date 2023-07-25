@@ -1,55 +1,93 @@
 /* form.css */
 
+/* Set primary color */
+:root {
+    --primary-color: #383770;
+}
+
+/* Styles for the form page */
 body {
+    background-color: #f5f5f5;
     font-family: Arial, sans-serif;
-    margin: 20px;
 }
 
-h2 {
-    color: #333;
-}
-
-img {
-    max-width: 100px;
-    max-height: 100px;
-    margin-bottom: 10px;
-}
-
-h4 {
-    color: #777;
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 form {
-    margin-top: 20px;
+    width: 400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #888888;
 }
 
-label {
-    display: inline-block;
-    width: 100px;
-    margin-bottom: 5px;
+.labelForm {
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="date"],
-input[type="file"] {
-    width: 200px;
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+.employeeForm {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-button {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #333;
-    color: #fff;
-    border: none;
+.employeeForm label,
+.employeeForm input,
+.employeeForm select,
+.employeeForm button {
+    margin: 10px;
+}
+
+.employeeForm select,
+.employeeForm input[type="date"],
+.employeeForm input[type="file"],
+.employeeForm input[type="submit"],
+.employeeForm button {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+.employeeForm input[type="submit"] {
+    background-color: var(--primary-color);
+    color: #fff;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #555;
+.employeeForm input[type="submit"]:hover {
+    background-color: #6e547c;
+}
+
+.employeeForm input[type="submit"]:active {
+    background-color: #ae7586;
+}
+
+.employeeForm .submitButton {
+    margin-top: 20px;
+}
+
+#phones div {
+    display: flex;
+    align-items: center;
+}
+
+#phones input[type="text"] {
+    flex: 1;
+    margin-right: 5px;
+}
+
+#phones button {
+    flex: 0;
+    padding: 5px;
+    border: none;
+    background-color: #ccc;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
 }

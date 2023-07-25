@@ -1,4 +1,19 @@
 /* styles.css */
+@import "form.css";
+@import "header.css";
+/* Set primary color */
+:root {
+    --primary-color: #383770;
+}
+
+.headerComponent {
+    background-color: var(--primary-color) !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 
 body {
     font-family: Arial, sans-serif;
@@ -52,3 +67,4 @@ a {
 a:hover {
     background-color: #555;
 }
+

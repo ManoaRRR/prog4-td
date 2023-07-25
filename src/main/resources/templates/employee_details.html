@@ -6,10 +6,10 @@
 </head>
 <body>
     <h2>Employee details</h2>
-    <th:block th:if="${employee.photo.length()>0}">
+    <th:block th:if="${employee.photo!=null && employee.photo.length()>0}">
         <img th:src="'data:image/png;base64,' + ${employee.photo}" alt="Photo">
     </th:block>
-    <th:block th:unless="${employee.photo.length()>0}">
+    <th:block th:unless="${employee.photo!=null && employee.photo.length()>0}">
         <h4>Aucun Image</h4>
     </th:block>
     <p>First Name: <span th:text="${employee.firstName}"></span></p>

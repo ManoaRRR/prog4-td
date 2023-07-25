@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "ISO-8859-1" />
+    <link href = "css/form.css" rel = "stylesheet"/>
+    <title>Employee Management</title>
+</head>
+<body>
+<h2>Add Employee</h2>
+<form th:action="@{/addEmployee}" th:object="${newEmployee}" method="post" enctype="multipart/form-data">
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" accept="image/*" th:field="*{photo}"><br>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" th:field="*{firstName}" required><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" th:field="*{lastName}" required><br>
+
+    <label for="birthDate">Birth Date:</label>
+    <input type="date" id="birthDate" th:field="*{birthDate}" ><br>
+
+    <label for="gender">Gender:</label>
+    <input type="text" id="gender" th:field="*{gender}" ><br>
+    <label for="address">Address:</label>
+    <input type="text" id="address" th:field="*{address}" ><br>
+    <label for="personalEmail">Personal email:</label>
+    <input type="text" id="personalEmail" th:field="*{personalEmail}" ><br>
+    <label for="professionalEmail">Professional email:</label>
+    <input type="text" id="professionalEmail" th:field="*{professionalEmail}" ><br>
+    <label for="cinNumber">Cin number:</label>
+    <input type="text" id="cinNumber" th:field="*{cinNumber}" ><br>
+    <label for="cinIssueDate">Cin issue date:</label>
+    <input type="date" id="cinIssueDate" th:field="*{cinIssueDate}" ><br>
+    <label for="cinIssuePlace">Cin issue place:</label>
+    <input type="text" id="cinIssuePlace" th:field="*{cinIssuePlace}" ><br>
+    <label for="function">Function:</label>
+    <input type="text" id="function" th:field="*{function}" ><br>
+    <label for="numberOfChildren">Child number:</label>
+    <input type="text" id="numberOfChildren" th:field="*{numberOfChildren}" ><br>
+    <label for="hiringDate">Hiring date:</label>
+    <input type="date" id="hiringDate" th:field="*{hiringDate}" ><br>
+    <label for="departureDate">Departure date:</label>
+    <input type="date" id="departureDate" th:field="*{departureDate}" ><br>
+    <label for="socioProfessionalCategory">Socio professional category:</label>
+    <input type="text" id="socioProfessionalCategory" th:field="*{socioProfessionalCategory}" ><br>
+    <label for="cnapsNumber">Cnaps number:</label>
+    <input type="text" id="cnapsNumber" th:field="*{cnapsNumber}" ><br>
+    <th:block th:if="${newEmployee.id != null}">
+        <button type="submit">Modify</button>
+    </th:block>
+    <th:block th:unless="${newEmployee.id != null}">
+        <button type="submit">Add</button>
+    </th:block>
+</form>
+
+
+    </tbody>
+</table>
+</body>
+</html>
