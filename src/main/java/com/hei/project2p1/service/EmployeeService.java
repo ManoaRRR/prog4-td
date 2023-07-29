@@ -1,72 +1,129 @@
 package com.hei.project2p1.service;
 
-import com.hei.project2p1.modele.Employee;
+import com.hei.project2p1.model.Employee;
+
 import com.hei.project2p1.repository.EmployeeRepository;
-import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-@Service
+
+import java.util.Collections;
+
+
 @AllArgsConstructor
+@Service
 public class EmployeeService {
 
-    private final String REGISTRATIONPREFIX = "EMP";
-
-    private final RegistrationNoTrackerService registrationNoTrackerService;
-
+    private static final String ATTRIBUTE_NAME_FIRST_NAME = "firt";
     private final EmployeeRepository employeeRepository;
 
-    public List<Employee> getEmployeesFromSession(HttpSession session) {
-        List<Employee> employees = (List<Employee>) session.getAttribute("employees");
-        if (employees == null) {
-            employees = new ArrayList<>();
-            session.setAttribute("employees", employees);
-        }
-        return employees;
-    }
+//    /**
+//     * Retrieves the list of employees from the session.
+//     * If the list doesn't exist in the session, creates a new one and stores it in the session.
+//     *
+//     * @param session The HttpSession from which to retrieve the list of employees.
+//     * @return The list of employees stored in the session.
+//     */
+//    public List<Employee> getEmployeesFromSession(HttpSession session) {
+//        List<Employee> employees = (List<Employee>) session.getAttribute("employees");
+//        if (employees == null) {
+//            employees = new ArrayList<>();
+//            session.setAttribute("employees", employees);
+//        }
+//        return employees;
+//    }
 
-    public List<Employee> getEmployeesFromDB() {
+    public List<Employee> getEmployees() {
+
         return employeeRepository.findAll();
     }
-    public Employee getEmployeeById(String id){
-        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee with id"+ id + "not found."));
+
+//    public void addEmployee(Employee employee) {
+//        // Utilize the repository to save the new employee in the database
+//        employeeRepository.save(employee);
+//    }
+
+    public void save(Employee employee) {
+        employeeRepository.save(employee);
     }
 
-    @Transactional
-    public Employee save(Employee employee) {
-        Employee toSave = autoSetRegNo(employee);
-        return employeeRepository.save(toSave);
-    }
-
-    @Transactional
-    public List<Employee> saveAll(List<Employee> employees) {
-        List<Employee> toSave = autoSetRegNo(employees);
-        return employeeRepository.saveAll(toSave);
-    }
-
-    private Employee autoSetRegNo(Employee employee){
-        if (employee.getRegistrationNo()==null){
-            Long last = registrationNoTrackerService.getLastRegistrationNo();
-            Long updatedNo = last + 1;
-            employee.setRegistrationNo(REGISTRATIONPREFIX + (updatedNo));
-            registrationNoTrackerService.updateLastNo(updatedNo);
-        }
-        return employee;
-    }
-
-    private List<Employee> autoSetRegNo(List<Employee> employeeList){
-        Long last = registrationNoTrackerService.getLastRegistrationNo();
-        for (Employee e : employeeList){
-            if (e.getRegistrationNo()==null){
-                e.setRegistrationNo(REGISTRATIONPREFIX + last);
-                last += 1L;
+    /**
+     * Method to process the employee's photo.
+     *
+     * @param employee The Employee object for which to process the photo.
+     * @param photo    The MultipartFile containing the employee's photo.
+     */
+    public void processEmployeePhoto(Employee employee, MultipartFile photo) {
+        try {
+            // Vérifier si un fichier d'image est téléchargé
+            if (photo != null && !photo.isEmpty()) {
+                // Si un fichier d'image est téléchargé, lisez le contenu du fichier et attribuez-le à la propriété 'photo' de l'employé
+                employee.setImageData(photo.getBytes());
+            } else {
+                // Si aucun fichier d'image n'est téléchargé, attribuez une valeur null à la propriété 'photo' de l'employé
+                employee.setPhoto(null);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Gérer l'erreur ici, par exemple : logger.error("Erreur lors du traitement de l'image", e);
         }
-        registrationNoTrackerService.updateLastNo(last);
-        return employeeList;
+    }
+
+    public Optional<Employee> getEmployeeById(Long EmployeeId) {
+        if (EmployeeId == null || EmployeeId <= 0) {
+            throw new IllegalArgumentException("Employee ID must be a positive non-zero value.");
+        }
+        return employeeRepository.findById(EmployeeId);
+    }
+
+    public List<Employee> filterEmployeesByAttributeAndValue(String attribute, String value) {
+        if (attribute == null || value == null) {
+            throw new IllegalArgumentException("Attribute and value cannot be null.");
+        }
+        // Utilize the existing method to filter employees based on the attribute and value
+        return employeeRepository.findAll((root, query, builder) -> {
+            // Build the search condition based on the specified attribute and value
+            return builder.like(builder.lower(root.get(attribute)), "%" + value.toLowerCase() + "%");
+        });
+    }
+
+    /**
+     * Method to filter employees based on the attribute.
+     *
+     * @param attribute The attribute on which to filter the employees.
+     * @param value     The value to use for filtering.
+     * @return The list of filtered employees.
+     */
+    public List<Employee> filterEmployeesByAttribute(String attribute, String value) {
+        // Implement the logic to filter employees based on the attribute and value
+        // Use JPA CriteriaQuery to create the filtering query
+        return employeeRepository.findAll((root, query, builder) -> {
+            // Build the search condition based on the specified attribute and value
+            return builder.like(builder.lower(root.get(attribute)), "%" + value.toLowerCase() + "%");
+        });
+    }
+
+    /**
+     * Method to sort employees based on the attribute.
+     *
+     * @param attribute The attribute on which to sort the employees.
+     * @return The list of sorted employees.
+     */
+    public List<Employee> sortEmployeesByAttribute(String attribute) {
+        List<String> validAttributes = List.of("firstName", "lastName", "salary"); // Add more if needed
+        if (validAttributes.contains(attribute)) {
+            return employeeRepository.findAll(Sort.by(attribute));
+        } else {
+            // Handle the case when the provided attribute is invalid
+            return Collections.emptyList();
+        }
     }
 }
+
+

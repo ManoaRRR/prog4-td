@@ -1,39 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset = "ISO-8859-1" />
-    <link href = "css/styles.css" rel = "stylesheet"/>
-    <title>Employee Management</title>
+    <title>Employee List</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<h2>Employees</h2>
-<a th:href="@{/employees/add}">Add new Employee</a>
+<h1>Employee List</h1>
 <table>
-    <thead>
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Birth Date</th>
-        <th>Number</th>
+        <th><a th:href="@{/}">ID</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">First Name</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">Last Name</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='birthDate')}">Birth Date</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='sex')}">Sex</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='phones')}">Phones</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='address')}">Address</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='personalEmail')}">Personal Email</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='workEmail')}">Work Email</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinNumber')}">CIN Number</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinDateOfIssue')}">CIN Date of Issue</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinPlaceOfIssue')}">CIN Place of Issue</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='jobTitle')}">Job Title</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='childrenCount')}">Children Count</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='hireDate')}">Hire Date</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='departureDate')}">Departure Date</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='socioProfessionalCategory')}">Socio-Professional Category</a></th>
+        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cnapsNumber')}">CNAPS Number</a></th>
+        <th>Photo</th>
+        <th>Actions</th>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="employee : ${employees}" >
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}"></td>
         <td th:text="${employee.firstName}"></td>
         <td th:text="${employee.lastName}"></td>
         <td th:text="${employee.birthDate}"></td>
-        <td th:text="${employee.registrationNo}"></td>
-
+        <td th:text="${employee.sex}"></td>
+        <td th:text="${employee.phones}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.personalEmail}"></td>
+        <td th:text="${employee.workEmail}"></td>
+        <td th:text="${employee.cinNumber}"></td>
+        <td th:text="${employee.cinDateOfIssue}"></td>
+        <td th:text="${employee.cinPlaceOfIssue}"></td>
+        <td th:text="${employee.jobTitle}"></td>
+        <td th:text="${employee.childrenCount}"></td>
+        <td th:text="${employee.hireDate}"></td>
+        <td th:text="${employee.departureDate}"></td>
+        <td th:text="${employee.socioProfessionalCategory}"></td>
+        <td th:text="${employee.cnapsNumber}"></td>
         <td>
-        <a th:href="@{/employees/{id}/details(id=${employee.id})}">Details</a>
+            <!-- Afficher l'image si elle est disponible -->
+            <img th:if="${employee.imageData}" th:src="${employee.imageUrl}" style="max-width: 100px; max-height: 100px;" />
+            <!-- Afficher un message si aucune photo n'est disponible -->
+            <span th:unless="${employee.imageData}">No photo</span>
         </td>
         <td>
-            <a th:href="@{/employees/{id}/update(id=${employee.id})}">Update</a>
+            <!-- Lien "Update" qui redirige vers la page de mise à jour avec l'ID de l'employé -->
+            <a th:href="@{/updateEmployee/{id}(id=${employee.id})}">Update</a>
         </td>
-
     </tr>
-    </tbody>
 </table>
+<div>
+    <form th:action="@{/filterEmployees}" method="get">
+        <label for="attribute">Attribute:</label>
+        <input type="text" id="attribute" name="attribute" required />
+        <label for="value">Value:</label>
+        <input type="text" id="value" name="value" required />
+        <button type="submit">Filter</button>
+    </form>
+</div>
+<h2>Add New Employee</h2>
+<form action="/addEmployee" method="post" enctype="multipart/form-data">
+    <div class="form-section">
+        <label>First Name: <input type="text" name="firstName" required /></label>
+        <label>Last Name: <input type="text" name="lastName" required /></label>
+        <label>Birth Date: <input type="date" name="birthDate" required /></label>
+        <label>Sex: <input type="text" name="sex" required /></label>
+        <label>Phones: <input type="text" name="phones" required /></label>
+        <label>Address: <input type="text" name="address" required /></label>
+    </div>
+    <div class="form-section">
+        <label>Personal Email: <input type="email" name="personalEmail" required /></label>
+        <label>Work Email: <input type="email" name="workEmail" required /></label>
+        <label>CIN Number: <input type="text" name="cinNumber" required /></label>
+        <label>CIN Date of Issue: <input type="date" name="cinDateOfIssue" required /></label>
+        <label>CIN Place of Issue: <input type="text" name="cinPlaceOfIssue" required /></label>
+    </div>
+    <div class="form-section">
+        <label>Job Title: <input type="text" name="jobTitle" required /></label>
+        <label>Children Count: <input type="number" name="childrenCount" required /></label>
+        <label>Hire Date: <input type="date" name="hireDate" required /></label>
+        <label>Departure Date (or "still working"): <input type="date" name="departureDate" required /></label>
+        <label>Socio-Professional Category: <input type="text" name="socioProfessionalCategory" required /></label>
+        <label>CNAPS Number: <input type="text" name="cnapsNumber" required /></label>
+    </div>
+    <div class="form-section form-submit">
+        <label>Photo: <input type="file" name="photo" accept="image/jpeg, image/png" /></label>
+        <input type="submit" value="Add Employee" />
+    </div>
+</form>
 </body>
 </html>
