@@ -236,6 +236,20 @@
             <label>Photo: <input type="file" name="photo" accept="image/jpeg, image/png"></label>
             <input type="submit" value="Add Employee">
         </div>
+
+        <div class="filter-form">
+            <!-- ... Autres formulaires de filtrage ... -->
+            <form th:action="@{/exportCSV}" method="get">
+                <button type="submit">Export CSV</button>
+            </form>
+
+        </div>
+        <div class="filter-form">
+            <!-- ... Autres formulaires de filtrage ... -->
+            <form th:action="@{/exportAllEmployeesCSV}" method="get">
+                <button type="submit">Export All Employees CSV</button>
+            </form>
+        </div>
     </form>
 </div>
 
