@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.update-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 15px;
+}
+
+.update-form label {
+    display: block;
+    font-weight: bold;
+}
+
+.update-form input[type="text"],
+.update-form input[type="date"],
+.update-form input[type="email"],
+.update-form input[type="number"],
+.update-form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.update-form input[type="submit"] {
+    display: block;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.update-form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .update-form {
+        grid-template-columns: 1fr;
+    }
+}

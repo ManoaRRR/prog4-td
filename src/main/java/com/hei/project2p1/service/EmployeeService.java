@@ -23,31 +23,13 @@ public class EmployeeService {
     private static final String ATTRIBUTE_NAME_FIRST_NAME = "firt";
     private final EmployeeRepository employeeRepository;
 
-//    /**
-//     * Retrieves the list of employees from the session.
-//     * If the list doesn't exist in the session, creates a new one and stores it in the session.
-//     *
-//     * @param session The HttpSession from which to retrieve the list of employees.
-//     * @return The list of employees stored in the session.
-//     */
-//    public List<Employee> getEmployeesFromSession(HttpSession session) {
-//        List<Employee> employees = (List<Employee>) session.getAttribute("employees");
-//        if (employees == null) {
-//            employees = new ArrayList<>();
-//            session.setAttribute("employees", employees);
-//        }
-//        return employees;
-//    }
+
 
     public List<Employee> getEmployees() {
 
         return employeeRepository.findAll();
     }
 
-//    public void addEmployee(Employee employee) {
-//        // Utilize the repository to save the new employee in the database
-//        employeeRepository.save(employee);
-//    }
 
     public void save(Employee employee) {
         employeeRepository.save(employee);

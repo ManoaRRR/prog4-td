@@ -78,6 +78,19 @@ public class EmployeeController {
         return "update_employee";
     }
 
+
+    @GetMapping("/updateEmployee/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        Optional<Employee> employeeOptional = employeeService.getEmployeeById(id);
+
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            model.addAttribute("employee", employee);
+            return "update_employee";
+        } else {
+            return "redirect:/";
+        }
+    }
     @PostMapping("/saveUpdateEmployee/{id}")
     public String saveUpdate(@PathVariable Long id, @ModelAttribute Employee updatedEmployee) {
         Employee existingEmployee = employeeService.getEmployeeById(id)

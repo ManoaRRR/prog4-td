@@ -2,102 +2,246 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Employee List</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Lien vers Bootstrap CSS (utilisation de Bootstrap v5.3.0) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        .employee-photo img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .update-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .update-link:hover {
+            background-color: #218838;
+        }
+
+        .filter-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-employee-form {
+            margin-top: 40px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-section label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-section input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-section input[type="date"] {
+            width: 100%;
+        }
+
+        .form-section input[type="submit"] {
+            display: block;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .form-section input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .form-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .form-section {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Employee List</h1>
-<table>
-    <tr>
-        <th><a th:href="@{/}">ID</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">First Name</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">Last Name</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='birthDate')}">Birth Date</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='sex')}">Sex</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='phones')}">Phones</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='address')}">Address</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='personalEmail')}">Personal Email</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='workEmail')}">Work Email</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinNumber')}">CIN Number</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinDateOfIssue')}">CIN Date of Issue</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinPlaceOfIssue')}">CIN Place of Issue</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='jobTitle')}">Job Title</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='childrenCount')}">Children Count</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='hireDate')}">Hire Date</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='departureDate')}">Departure Date</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='socioProfessionalCategory')}">Socio-Professional Category</a></th>
-        <th><a th:href="@{/sortEmployeesByAttribute(attribute='cnapsNumber')}">CNAPS Number</a></th>
-        <th>Photo</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="employee : ${employees}">
-        <td th:text="${employee.id}"></td>
-        <td th:text="${employee.firstName}"></td>
-        <td th:text="${employee.lastName}"></td>
-        <td th:text="${employee.birthDate}"></td>
-        <td th:text="${employee.sex}"></td>
-        <td th:text="${employee.phones}"></td>
-        <td th:text="${employee.address}"></td>
-        <td th:text="${employee.personalEmail}"></td>
-        <td th:text="${employee.workEmail}"></td>
-        <td th:text="${employee.cinNumber}"></td>
-        <td th:text="${employee.cinDateOfIssue}"></td>
-        <td th:text="${employee.cinPlaceOfIssue}"></td>
-        <td th:text="${employee.jobTitle}"></td>
-        <td th:text="${employee.childrenCount}"></td>
-        <td th:text="${employee.hireDate}"></td>
-        <td th:text="${employee.departureDate}"></td>
-        <td th:text="${employee.socioProfessionalCategory}"></td>
-        <td th:text="${employee.cnapsNumber}"></td>
-        <td>
-            <!-- Afficher l'image si elle est disponible -->
-            <img th:if="${employee.imageData}" th:src="${employee.imageUrl}" style="max-width: 100px; max-height: 100px;" />
-            <!-- Afficher un message si aucune photo n'est disponible -->
-            <span th:unless="${employee.imageData}">No photo</span>
-        </td>
-        <td>
-            <!-- Lien "Update" qui redirige vers la page de mise à jour avec l'ID de l'employé -->
-            <a th:href="@{/updateEmployee/{id}(id=${employee.id})}">Update</a>
-        </td>
-    </tr>
-</table>
-<div>
-    <form th:action="@{/filterEmployees}" method="get">
-        <label for="attribute">Attribute:</label>
-        <input type="text" id="attribute" name="attribute" required />
-        <label for="value">Value:</label>
-        <input type="text" id="value" name="value" required />
-        <button type="submit">Filter</button>
+<div class="container">
+    <h1 class="text-center">Employee List</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th><a th:href="@{/}">ID</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">First Name</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='lastName')}">Last Name</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='birthDate')}">Birth Date</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='sex')}">Sex</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='phones')}">Phones</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='address')}">Address</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='personalEmail')}">Personal Email</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='workEmail')}">Work Email</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinNumber')}">CIN Number</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinDateOfIssue')}">CIN Date of Issue</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='cinPlaceOfIssue')}">CIN Place of Issue</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='jobTitle')}">Job Title</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='childrenCount')}">Children Count</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='hireDate')}">Hire Date</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='departureDate')}">Departure Date</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='socioProfessionalCategory')}">Socio-Professional Category</a></th>
+            <th><a th:href="@{/sortEmployeesByAttribute(attribute='cnapsNumber')}">CNAPS Number</a></th>
+            <th>Photo</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.birthDate}"></td>
+            <td th:text="${employee.sex}"></td>
+            <td th:text="${employee.phones}"></td>
+            <td th:text="${employee.address}"></td>
+            <td th:text="${employee.personalEmail}"></td>
+            <td th:text="${employee.workEmail}"></td>
+            <td th:text="${employee.cinNumber}"></td>
+            <td th:text="${employee.cinDateOfIssue}"></td>
+            <td th:text="${employee.cinPlaceOfIssue}"></td>
+            <td th:text="${employee.jobTitle}"></td>
+            <td th:text="${employee.childrenCount}"></td>
+            <td th:text="${employee.hireDate}"></td>
+            <td th:text="${employee.departureDate}"></td>
+            <td th:text="${employee.socioProfessionalCategory}"></td>
+            <td th:text="${employee.cnapsNumber}"></td>
+            <td>
+                <div class="employee-photo">
+                    <img th:if="${employee.imageData}" th:src="${employee.imageUrl}" alt="Employee Photo">
+                    <span th:unless="${employee.imageData}">No photo</span>
+                </div>
+            </td>
+            <td>
+                <a class="update-link" th:href="@{/updateEmployee/{id}(id=${employee.id})}">Update</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="filter-form">
+        <form th:action="@{/filterEmployees}" method="get">
+            <label for="attribute">Attribute:</label>
+            <input type="text" id="attribute" name="attribute" required>
+            <label for="value">Value:</label>
+            <input type="text" id="value" name="value" required>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+    <h2 class="text-center">Add New Employee</h2>
+    <form class="add-employee-form" action="/addEmployee" method="post" enctype="multipart/form-data">
+        <div class="form-section">
+            <label>First Name: <input type="text" name="firstName" required></label>
+            <label>Last Name: <input type="text" name="lastName" required></label>
+            <label>Birth Date: <input type="date" name="birthDate" required></label>
+            <label>Sex: <input type="text" name="sex" required></label>
+            <label>Phones: <input type="text" name="phones" required></label>
+            <label>Address: <input type="text" name="address" required></label>
+        </div>
+        <div class="form-section">
+            <label>Personal Email: <input type="email" name="personalEmail" required></label>
+            <label>Work Email: <input type="email" name="workEmail" required></label>
+            <label>CIN Number: <input type="text" name="cinNumber" required></label>
+            <label>CIN Date of Issue: <input type="date" name="cinDateOfIssue" required></label>
+            <label>CIN Place of Issue: <input type="text" name="cinPlaceOfIssue" required></label>
+        </div>
+        <div class="form-section">
+            <label>Job Title: <input type="text" name="jobTitle" required></label>
+            <label>Children Count: <input type="number" name="childrenCount" required></label>
+            <label>Hire Date: <input type="date" name="hireDate" required></label>
+            <label>Departure Date (or "still working"): <input type="date" name="departureDate" required></label>
+            <label>Socio-Professional Category: <input type="text" name="socioProfessionalCategory" required></label>
+            <label>CNAPS Number: <input type="text" name="cnapsNumber" required></label>
+        </div>
+        <div class="form-section form-submit">
+            <label>Photo: <input type="file" name="photo" accept="image/jpeg, image/png"></label>
+            <input type="submit" value="Add Employee">
+        </div>
     </form>
 </div>
-<h2>Add New Employee</h2>
-<form action="/addEmployee" method="post" enctype="multipart/form-data">
-    <div class="form-section">
-        <label>First Name: <input type="text" name="firstName" required /></label>
-        <label>Last Name: <input type="text" name="lastName" required /></label>
-        <label>Birth Date: <input type="date" name="birthDate" required /></label>
-        <label>Sex: <input type="text" name="sex" required /></label>
-        <label>Phones: <input type="text" name="phones" required /></label>
-        <label>Address: <input type="text" name="address" required /></label>
-    </div>
-    <div class="form-section">
-        <label>Personal Email: <input type="email" name="personalEmail" required /></label>
-        <label>Work Email: <input type="email" name="workEmail" required /></label>
-        <label>CIN Number: <input type="text" name="cinNumber" required /></label>
-        <label>CIN Date of Issue: <input type="date" name="cinDateOfIssue" required /></label>
-        <label>CIN Place of Issue: <input type="text" name="cinPlaceOfIssue" required /></label>
-    </div>
-    <div class="form-section">
-        <label>Job Title: <input type="text" name="jobTitle" required /></label>
-        <label>Children Count: <input type="number" name="childrenCount" required /></label>
-        <label>Hire Date: <input type="date" name="hireDate" required /></label>
-        <label>Departure Date (or "still working"): <input type="date" name="departureDate" required /></label>
-        <label>Socio-Professional Category: <input type="text" name="socioProfessionalCategory" required /></label>
-        <label>CNAPS Number: <input type="text" name="cnapsNumber" required /></label>
-    </div>
-    <div class="form-section form-submit">
-        <label>Photo: <input type="file" name="photo" accept="image/jpeg, image/png" /></label>
-        <input type="submit" value="Add Employee" />
-    </div>
-</form>
+
+<!-- Lien vers les bibliothèques Bootstrap JavaScript (utilisation de Bootstrap v5.3.0) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
