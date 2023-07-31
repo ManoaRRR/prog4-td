@@ -16,10 +16,10 @@ public class EntrepriseController {
     @PostMapping("/addEntreprise")
     public String addEntreprise(@ModelAttribute("newEntreprise") Entreprise newEntreprise,
                                 @RequestParam("logo") MultipartFile logo) {
-        // Traiter le logo de l'entreprise et le stocker dans l'attribut 'logo' de l'entreprise
+
         entrepriseService.processEntrepriseLogo(newEntreprise, logo);
 
-        // Enregistrer l'entreprise dans la base de données
+
         entrepriseService.saveEntreprise(newEntreprise);
 
         // Rediriger vers une autre page (par exemple la liste des entreprises) après l'ajout
