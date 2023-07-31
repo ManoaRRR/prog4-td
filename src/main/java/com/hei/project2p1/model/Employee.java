@@ -22,6 +22,7 @@ public class Employee {
     private String lastName;
     private String birthDate;
     private String sex;
+
     private String phones;
     private String address;
     private String personalEmail;
@@ -52,6 +53,13 @@ public class Employee {
 
     @Column(name = "image_data")
     private byte[] imageData;
+
+
+    @ManyToOne
+    @JoinColumn(name = "entreprise_id")
+    private Entreprise entreprise_id;
+
+
 
 
 

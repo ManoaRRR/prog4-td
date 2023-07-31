@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter une Entreprise</title>
+</head>
+<body>
+<h1>Ajouter une Entreprise</h1>
+<form action="/addEntreprise" method="post" enctype="multipart/form-data" th:object="@{/addEntreprise}">
+    <label>Nom de l'entreprise: <input type="text" name="nom" th:field="*{nom}" required /></label><br>
+    <label>Description de l'entreprise: <textarea name="description" th:field="*{description}" required></textarea></label><br>
+    <label>Slogan: <input type="text" name="slogan" th:field="*{slogan}" required /></label><br>
+    <label>Adresse exacte: <input type="text" name="adresse" th:field="*{adresse}" required /></label><br>
+    <label>Email de contact: <input type="email" name="emailContact" th:field="*{emailContact}" required /></label><br>
+    <label>Téléphones:</label><br>
+    <div th:each="telephone : ${newEntreprise.telephones}">
+        <input type="text" th:field="*{telephones[__${telephoneStat.index}__]}" required />
+        <a href="#" th:remove="allButLast" th:href="@{}">Supprimer</a><br>
+    </div>
+    <a href="#" th:remove="allButLast" th:href="@{}">Ajouter un autre téléphone</a><br>
+    <label>NIF: <input type="text" name="nif" th:field="*{nif}" required /></label><br>
+    <label>STAT: <input type="text" name="stat" th:field="*{stat}" required /></label><br>
+    <label>RCS: <input type="text" name="rcs" th:field="*{rcs}" required /></label><br>
+    <label>Logo: <input type="file" name="logo" accept="image/jpeg, image/png" required /></label><br>
+    <input type="submit" value="Ajouter l'Entreprise" />
+</form>
+</body>
+</html>
