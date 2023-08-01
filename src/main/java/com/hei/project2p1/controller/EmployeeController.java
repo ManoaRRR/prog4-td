@@ -70,7 +70,7 @@ public class EmployeeController {
         return "redirect:/";
     }
 
-    @GetMapping("/updateEmployeeForm/{id}")
+    @GetMapping("/updateEmployee/{id}")
     public String showUpdateEmployeeForm(@PathVariable Long id, Model model) {
         Employee employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid employee ID: " + id));
